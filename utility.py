@@ -60,6 +60,7 @@ def calcParityBits(arr, r):
     return arr 
     
 def detectError(arr, nr): 
+    nr = int(nr)
     n = len(arr) 
     res = 0
   
@@ -78,17 +79,24 @@ def detectError(arr, nr):
     # Convert binary to decimal 
     return int(str(res), 2) 
 
-
+#retorna un array, uno con el mensaje con la paridad, otro con el r_bit
 def hamming(message="hola", m = len("hola")):
+    arr_answer = []
     r_bits = calculate_rbit(m)
     arr = pos_rbit(message, r_bits)
     arr = calcParityBits(arr,r_bits)
-    return arr
+
+    arr_answer.append(arr)
+    arr_answer.append(r_bits)
+    return arr_answer
 
     
 result = text_to_bits("hola tony")
 arr = hamming(result, len(result))
 #data transfer
-print(result)
 print(arr)
-noise(result)
+noisy = noise(arr[0])
+
+#should detect position of error
+err = detectError(noisy,result[1])
+print("found at: ", str(err))   
