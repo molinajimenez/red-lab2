@@ -1,4 +1,4 @@
-
+from utility import *
 def calcRedundantBits(m): 
   
     # Use the formula 2 ^ r >= m + r + 1 
@@ -76,30 +76,20 @@ def detectError(arr, nr):
     # Convert binary to decimal 
     return int(str(res), 2) 
   
+
+
+def hamming(data):
+    # Calculate the no of Redundant Bits Required 
+    m = len(data) 
+    r = calcRedundantBits(m) 
   
-# Enter the data to be transmitted 
-data = '011010000110111101101100011000010010000001110100011011110110111001111001'
-print("Es el data")
-print(data)
+    # Determine the positions of Redundant Bits 
+    arr = posRedundantBits(data, r) 
   
-# Calculate the no of Redundant Bits Required 
-m = len(data) 
-r = calcRedundantBits(m) 
-  
-# Determine the positions of Redundant Bits 
-arr = posRedundantBits(data, r) 
-  
-# Determine the parity bits 
-arr = calcParityBits(arr, r) 
-  
-# Data to be transferred 
-print("Data transferred is " + arr)   
-  
-# Stimulate error in transmission by changing 
-# a bit value. 
-# 10101001110 -> 11101001110, error in 10th position. 
-  
-arr = '011010000110111101101100011000010010000001110100011011110110111001111001'
-print("Error Data is " + arr) 
-correction = detectError(arr, r) 
-print("The position of error is " + str(correction)) 
+    # Determine the parity bits 
+    arr = calcParityBits(arr, r)
+    arr = utility.noise(arr)
+    correction = detectError(arr, r) 
+    print("The position of error is " + str(correction)) 
+
+

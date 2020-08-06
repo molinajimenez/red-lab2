@@ -28,7 +28,7 @@ def noise(text):
     else:
         arr_txt[rand] = '0'
     
-    return bitarray("".join(arr_txt))
+    return "".join(arr_txt)
     
 
 

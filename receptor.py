@@ -55,10 +55,9 @@ def conexion_cliente(conn, addr):
 
             print(msg)
             
-            arr = '011010000110111101101100011000010010000001110100011011110110111001111001'
+            
 
-            correction = detectError(arr, r)
-            print("The position of error is " + str(correction)) 
+            
             print("********")
 
 
