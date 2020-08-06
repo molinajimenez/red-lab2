@@ -11,21 +11,25 @@ def text_to_bits(text, encoding='utf-8', errors='surrogatepass'):
 def text_from_bits(bits, encoding='utf-8', errors='surrogatepass'):
     n = int(bits, 2)
     return n.to_bytes((n.bit_length() + 7) // 8, 'big').decode(encoding, errors) or '\0'
-    
+
 def bits_to_bitarray(text):
     return bitarray(text)
 
 # noise, it receives message, and 1/prob probability of messing certain position. it runs on each bit of the message.
 
 
-def noise(message):
-    random_index = random.randint(1, len(message)-1)
-    if(message[random_index] == 1):
-        message[random_index] = 0
-        print(message[random_index])
+def noise(text):
+    arr_txt = list(text)
+
+    rand = random.randint(0, len(arr_txt))
+
+    if(arr_txt[rand] == '0'):
+        arr_txt[rand] = '1'
     else:
-        message[random_index] = 1
-    return message
+        arr_txt[rand] = '0'
+    
+    return bitarray("".join(arr_txt))
+    
 
 
 # function that determines required parity bit
@@ -88,9 +92,7 @@ def hamming(message="hola", m=len("hola")):
 
 
 result = text_to_bits("hola tony")
-bitarr  = bits_to_bitarray(result)
-noise = noise(bitarr)
-
-print("", bitarr)
-print("", noise)
+nois = noise(result)
+print("", result)
+print("", nois)
 arr = hamming(result, len(result))
