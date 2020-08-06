@@ -1,6 +1,7 @@
 import socket
 import threading
 from hamming import *
+from utility import *
 # size del header, es la longitud del contenido que va a enviar el emisor/cliente
 HEADERSIZE = 2020
 FORMAT = "utf-8"
@@ -30,22 +31,20 @@ def detectError(arr, nr):
   
         # Create a binary no by appending 
         # parity bits together. 
-  
         res = res + val*(10**i) 
-  
     # Convert binary to decimal 
     return int(str(res), 2) 
 
+def text_from_bits(bits, encoding='utf-8', errors='surrogatepass'):
+    n = int(bits, 2)
+    return n.to_bytes((n.bit_length() + 7) // 8, 'big').decode(encoding, errors) or '\0'
 
 #CRC
 def decodeData(data, key): 
-   
     l_key = len(key) 
-   
     # Appends n-1 zeroes at end of data 
     appended_data = data + '0'*(l_key-1) 
     remainder = mod2div(appended_data, key) 
-   
     return remainder 
 
 def conexion_cliente(conn, addr):
@@ -67,12 +66,16 @@ def conexion_cliente(conn, addr):
                 connection = False
             else:
                 hamming(msg)
-            
-            
-            
-            print("********")
+                mensaje_recibido = text_from_bits(msg)
+                print("Se recibio el mensaje: ", mensaje_recibido)
 
 
+                print("")
+                print("CRC")
+                respuesta_crc = decodeData(msg, KEY)
+                print(respuesta_crc)
+                        
+            print("*********************************************")
     conn.close()
 
 #funcion para iniciar el servidor/receptor
@@ -106,7 +109,6 @@ iniciar_server()
 
 
 """
-
 st = "hola tony"
 print(st)
 print(' '.join(map(bin,bytearray(st,'utf8'))))
@@ -114,5 +116,4 @@ print(' '.join(map(bin,bytearray(st,'utf8'))))
 print("testeando test_to_bits")
 result2 = text_to_bits("hola tony")
 print(result2)
-
 """
