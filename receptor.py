@@ -5,7 +5,7 @@ from hamming import *
 HEADERSIZE = 2020
 FORMAT = "utf-8"
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+KEY = "1001"
 # direccion
 HOST = socket.gethostname()
 
@@ -15,6 +15,7 @@ PORT = 1234
 # el bind() se utiliza para asociar el socket con una interfaz de red específica y un número de puerto:
 server.bind((HOST, PORT))
 
+#HAMMING
 def detectError(arr, nr): 
     nr = int(nr)
     n = len(arr) 
@@ -34,6 +35,18 @@ def detectError(arr, nr):
   
     # Convert binary to decimal 
     return int(str(res), 2) 
+
+
+#CRC
+def decodeData(data, key): 
+   
+    l_key = len(key) 
+   
+    # Appends n-1 zeroes at end of data 
+    appended_data = data + '0'*(l_key-1) 
+    remainder = mod2div(appended_data, key) 
+   
+    return remainder 
 
 def conexion_cliente(conn, addr):
     print(f"CONEXION CON CLIENTE: {addr}")
@@ -56,8 +69,6 @@ def conexion_cliente(conn, addr):
                 hamming(msg)
             
             
-            
-
             
             print("********")
 
