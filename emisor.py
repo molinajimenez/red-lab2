@@ -4,6 +4,8 @@ HEADERSIZE = 2020
 FORMAT = "utf-8"
 
 emisor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# El emisor/cliente llama a connect () para establecer una conexión con el servidor e three way handshake
 emisor.connect((socket.gethostname(), 1234))
 
 
