@@ -1,4 +1,4 @@
-from utility import *
+from utility import noise
 def calcRedundantBits(m): 
   
     # Use the formula 2 ^ r >= m + r + 1 
@@ -37,7 +37,6 @@ def posRedundantBits(data, r):
   
 def calcParityBits(arr, r): 
     n = len(arr) 
-  
     # For finding rth parity bit, iterate over 
     # 0 to r - 1 
     for i in range(r): 
@@ -79,17 +78,16 @@ def detectError(arr, nr):
 
 
 def hamming(data):
+    print("hamming")
     # Calculate the no of Redundant Bits Required 
     m = len(data) 
     r = calcRedundantBits(m) 
-  
     # Determine the positions of Redundant Bits 
     arr = posRedundantBits(data, r) 
   
     # Determine the parity bits 
     arr = calcParityBits(arr, r)
-    correction = detectError(arr, r) 
+    print(arr)
+    nois = noise(arr)
+    correction = detectError(nois, r) 
     print("The position of error is " + str(correction)) 
-
-
-print(hamming(text_to_bits("hola tony")))

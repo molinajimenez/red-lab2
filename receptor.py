@@ -1,6 +1,6 @@
 import socket
 import threading
-
+from hamming import *
 # size del header, es la longitud del contenido que va a enviar el emisor/cliente
 HEADERSIZE = 2020
 FORMAT = "utf-8"
@@ -49,11 +49,12 @@ def conexion_cliente(conn, addr):
         if msg_length:
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
-
+            print(msg)
             if msg == "adios":
                 connection = False
-
-            print(msg)
+            else:
+                hamming(msg)
+            
             
             
 

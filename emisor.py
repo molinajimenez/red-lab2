@@ -1,5 +1,7 @@
 import socket
 
+from utility import noise
+
 HEADERSIZE = 2020
 FORMAT = "utf-8"
 
@@ -23,5 +25,6 @@ def enviar_mensaje(msg):
 
 
 while True:
+    #alter_noise = noise(text_to_bits("hola tony"))
     enviar_mensaje(text_to_bits("hola tony"))
     enviar_mensaje("adios")
