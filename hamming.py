@@ -88,8 +88,8 @@ def hamming(data):
   
     # Determine the parity bits 
     arr = calcParityBits(arr, r)
-    arr = utility.noise(arr)
     correction = detectError(arr, r) 
     print("The position of error is " + str(correction)) 
 
 
+print(hamming(text_to_bits("hola tony")))
