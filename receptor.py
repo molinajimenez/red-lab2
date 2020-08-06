@@ -15,6 +15,25 @@ PORT = 1234
 # el bind() se utiliza para asociar el socket con una interfaz de red específica y un número de puerto:
 server.bind((HOST, PORT))
 
+def detectError(arr, nr): 
+    nr = int(nr)
+    n = len(arr) 
+    res = 0
+  
+    # Calculate parity bits again 
+    for i in range(nr): 
+        val = 0
+        for j in range(1, n + 1): 
+            if(j & (2**i) == (2**i)): 
+                val = val ^ int(arr[-1 * j]) 
+  
+        # Create a binary no by appending 
+        # parity bits together. 
+  
+        res = res + val*(10**i) 
+  
+    # Convert binary to decimal 
+    return int(str(res), 2) 
 
 def conexion_cliente(conn, addr):
     print(f"CONEXION CON CLIENTE: {addr}")
@@ -35,6 +54,12 @@ def conexion_cliente(conn, addr):
                 connection = False
 
             print(msg)
+            
+            arr = '011010000110111101101100011000010010000001110100011011110110111001111001'
+
+            correction = detectError(arr, r)
+            print("The position of error is " + str(correction)) 
+            print("********")
 
 
     conn.close()
@@ -56,5 +81,27 @@ def iniciar_server():
         thread = threading.Thread(target=conexion_cliente, args=(conn, addr))
         thread.start()
 
+#Tomado de: https://stackoverflow.com/questions/7396849/convert-binary-to-ascii-and-vice-versa
+def text_to_bits(text, encoding='utf-8', errors='surrogatepass'):
+    bits = bin(int.from_bytes(text.encode(encoding, errors), 'big'))[2:]
+    return bits.zfill(8 * ((len(bits) + 7) // 8))
+
+def funcion_x():
+    print("funcion x")
+
+
 print("El receptor esta esperando un mensaje")
 iniciar_server()
+
+
+"""
+
+st = "hola tony"
+print(st)
+print(' '.join(map(bin,bytearray(st,'utf8'))))
+
+print("testeando test_to_bits")
+result2 = text_to_bits("hola tony")
+print(result2)
+
+"""

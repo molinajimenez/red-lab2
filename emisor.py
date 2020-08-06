@@ -8,6 +8,10 @@ emisor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # El emisor/cliente llama a connect () para establecer una conexión con el servidor e three way handshake
 emisor.connect((socket.gethostname(), 1234))
 
+#Tomado de: https://stackoverflow.com/questions/7396849/convert-binary-to-ascii-and-vice-versa
+def text_to_bits(text, encoding='utf-8', errors='surrogatepass'):
+    bits = bin(int.from_bytes(text.encode(encoding, errors), 'big'))[2:]
+    return bits.zfill(8 * ((len(bits) + 7) // 8))
 
 def enviar_mensaje(msg):
     mensaje = msg.encode(FORMAT)
@@ -19,5 +23,5 @@ def enviar_mensaje(msg):
 
 
 while True:
-    de_usuario = input("Ingresa mensaje: ")
-    enviar_mensaje(de_usuario)
+    enviar_mensaje(text_to_bits("hola tony"))
+    enviar_mensaje("adios")
